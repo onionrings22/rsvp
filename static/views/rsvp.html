@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>RSVP</title>
+        <link rel="stylesheet" href="/static/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/rsvp.css">
+        <link rel="icon" type="image/png" href="/static/images/rsvp.png">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <form action="/logout" method="post">
+                    <div class="col-md-1 col-md-offset-11 col-xs-2 col-xs-offset-10">
+                        <button class="btn btn-danger" type="submit">Log out</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <h1>RSVP Details</h1>
+                </div>
+            </div>
+            <div class="row">
+                <form class="form-horizontal" action="/rsvp" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-md-offset-3 col-xs-10 col-xs-offset-1">Entree</label>
+                        <div class="col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1">
+                            <select id="entree" name="entree" class="form-control">
+                                <option value="" disabled selected>Choose one...</option>
+                                <option value="parm">Chicken Parmesan</option>
+                                <option value="pork">Pork Loin</option>
+                                <option value="vegan">Vegan Stir Fry</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-md-offset-3 col-xs-10 col-xs-offset-1">Requested Modifications</label>
+                        <div class="col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1">
+                            <textarea name="Modification" class="form-control" rows="3" placeholder="Dressing on side"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-6 text-right col-xs-10 col-xs-offset-1">
+                            <button id="add-player-button" class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="/static/lib/jquery.min.js"></script>
+    </body>
+</html>
