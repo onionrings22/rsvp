@@ -19,9 +19,9 @@ app.use('/static',serveStatic(path.join(__dirname, 'static')))
 const server = http.createServer(app)
 
 const connection = mysql.createConnection({
-	host     : 'localhost',
+	host     : 'rsvp.cvj2n6ggmoqo.us-west-2.rds.amazonaws.com',
 	user     : 'root',
-	password : '',
+	password : 'pass1234',
 	database : 'rsvp'
 })
 
@@ -98,8 +98,12 @@ app.get('/details', function(request, response) {
 app.post('/rsvp', function(request, response) {
 	// If the user is loggedin
 	if (request.session.loggedin) {
+		let mods = request.body.modifications
+		if (mods && mods.length > 160) {
+			mods = mods.substring(0,160)
+		}
         connection.query('update user set entree = ?, modifications = ? where id = ?',
-        [request.body.entree, request.body.modifications, request.session.userId], function(error, results, fields) {
+        [request.body.entree, mods, request.session.userId], function(error, results, fields) {
             // If there is an issue with the query, output the error
 			if (error) {
                 console.log("rsvp sql error: ", error)
