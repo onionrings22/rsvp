@@ -11,41 +11,62 @@
         <div class="container">
             <div class="row">
                 <form action="/logout" method="post">
-                    <div class="col-md-1 col-md-offset-11 col-xs-2 col-xs-offset-10">
+                    <div class="col-md-1 col-md-offset-11 col-xs-3 col-xs-offset-9">
                         <button class="btn btn-danger" type="submit">Log out</button>
                     </div>
                 </form>
             </div>
             <div class="row">
-                <div class="text-center">
-                    <h1>RSVP Details</h1>
+                <div class="col-xs-8 col-xs-offset-2">
+                    <h2>Please select which entrée you will have at our wedding</h2>
+                    <div>All entrées include a salad and a dinner roll</div>
+                    <h3>Classic Caesar Salad</h3>
+                    <div>Romaine, Garlic Croutons, Shaved Parmesan Cheese, Classic Caesar Dressing</div>
+                    <h2>Entrées</h2>
+                    <h3>Chicken Champignon</h3>
+                    <div>Dredged Chicken Breast Sauteed with a Creamy Mushroom and Onion Gravy, Fresh Parsley.
+                        Served with Parmesan Roasted Red Potatoes and Grilled Asparagus
+                    </div>
+                    <h3>Herb Roasted Pork Loin</h3>
+                    <div>Sliced Pork Loin, Herbs de Provence, Brie Cream Sauce.
+                        Served with Parmesan Roasted Red Potatoes and Grilled Asparagus
+                    </div>
+                    <h3>Vegan Tofu Stir Fry</h3>
+                    <div>Fried Tofu, Sugar Snap Peas, Red Onion, Brown Sugar and Ginger Soy Sauce.
+                        Served with Steamed Basmati Rice</div>
                 </div>
             </div>
             <div class="row">
-                <form class="form-horizontal" action="/rsvp" method="post">
-                    <div class="form-group">
-                        <label class="control-label col-md-2 col-md-offset-3 col-xs-10 col-xs-offset-1">Entree</label>
-                        <div class="col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1">
-                            <select id="entree" name="entree" class="form-control">
-                                <option value="" disabled selected>Choose one...</option>
-                                <option value="chicken">Chicken Champignon</option>
-                                <option value="pork">Pork Loin</option>
-                                <option value="vegan">Vegan Stir Fry</option>
-                            </select>
+                <div class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">
+                    <form class="form-horizontal" action="/rsvp" method="post">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="control-label col-md-5">Entrée</label>
+                                <div class="col-md-7">
+                                    <select id="entree" name="entree" class="form-control">
+                                        <option value="" disabled selected>Choose one...</option>
+                                        <option value="chicken">Chicken Champignon</option>
+                                        <option value="pork">Herb Roasted Pork Loin</option>
+                                        <option value="vegan">Vegan Tofu Stir Fry</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2 col-md-offset-3 col-xs-10 col-xs-offset-1">Requested Modifications</label>
-                        <div class="col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1">
-                            <textarea id="modifications" name="modifications" class="form-control" rows="3" placeholder="Dressing on side"></textarea>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="control-label col-md-5 text-left">If you need modifications to your food, request them here</label>
+                                <div class="col-md-7">
+                                    <textarea id="modifications" name="modifications" class="form-control" rows="3" placeholder="Dressing on side"></textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-2 col-md-offset-6 text-right col-xs-10 col-xs-offset-1">
-                            <button id="add-player-button" class="btn btn-primary" type="submit">Submit</button>
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-6 text-right col-xs-10 col-xs-offset-1">
+                                <button id="add-player-button" class="btn btn-primary" type="submit">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
         <script src="/static/lib/jquery.min.js"></script>

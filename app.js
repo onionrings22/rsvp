@@ -54,7 +54,6 @@ app.post('/login', function(request, response) {
 				// Authenticate the user
 				request.session.loggedin = true
 				request.session.userId = results[0].id
-                console.log("login session: ", request.session)
 				// Redirect to rsvp page
 				response.redirect('/rsvp')
 			} else {
