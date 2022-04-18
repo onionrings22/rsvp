@@ -103,9 +103,9 @@ app.post('/rsvp', function(request, response) {
             // If there is an issue with the query, output the error
 			if (error) {
                 console.log("rsvp sql error: ", error)
-                throw error
+                response.sendStatus(500)
             }
-            response.redirect('/')	
+            response.sendStatus(200)
         })
 	} else {
 		// Not logged in
