@@ -4,7 +4,6 @@ const session = require('express-session')
 const path = require('path')
 const http = require('http')
 const serveStatic = require("serve-static")
-const { parse } = require('path')
 const app = express()
 const port = 3000
 
@@ -19,12 +18,12 @@ app.use('/static',serveStatic(path.join(__dirname, 'static')))
 
 const server = http.createServer(app)
 
-// const connection = mysql.createConnection({
-// 	host     : 'localhost',
-// 	user     : 'root',
-// 	password : '',
-// 	database : 'nodelogin'
-// })
+const connection = mysql.createConnection({
+	host     : 'localhost',
+	user     : 'root',
+	password : '',
+	database : 'rsvp'
+})
 
 app.get('/', (request, response) => {
     if (request.session.loggedin) {
@@ -39,48 +38,76 @@ app.get('/login', (request, response) => {
 })
 
 app.post('/login', function(request, response) {
+    // parse request body
     let fname = request.body.fname
     let lname = request.body.lname
     let code = request.body.code
 
-    if (fname === "Russell" && lname === "Leininger" && code === "1212") {
-        request.session.loggedin = true
-        request.session.userId = 1234
-        response.redirect('/rsvp')
-    } else {
-        response.redirect('/')
-    }
-	// // Capture the input fields
-	// let username = request.body.username
-	// let password = request.body.password
 	// Ensure the input fields exists and are not empty
-	// if (username && password) {
-	// 	// Execute SQL query that'll select the account from the database based on the specified username and password
-	// 	connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-	// 		// If there is an issue with the query, output the error
-	// 		if (error) throw error
-	// 		// If the account exists
-	// 		if (results.length > 0) {
-	// 			// Authenticate the user
-	// 			request.session.loggedin = true
-	// 			request.session.username = username
-	// 			// Redirect to home page
-	// 			response.redirect('/home')
-	// 		} else {
-	// 			response.send('Incorrect Username and/or Password!')
-	// 		}			
-	// 		response.end()
-	// 	})
-	// } else {
-	// 	response.send('Please enter Username and Password!')
-	// 	response.end()
-	// }
+	if (fname && lname && code) {
+		// Execute SQL query that'll select the account from the database based on the specified username and password
+		connection.query('SELECT * FROM user WHERE fname = ? AND lname = ? AND login_code = ?', [fname, lname, code], function(error, results, fields) {
+			// If there is an issue with the query, output the error
+			if (error) throw error
+			// If the account exists
+			if (results.length > 0) {
+				// Authenticate the user
+				request.session.loggedin = true
+				request.session.userId = results[0].id
+                console.log("login session: ", request.session)
+				// Redirect to rsvp page
+				response.redirect('/rsvp')
+			} else {
+				response.redirect('/')
+			}			
+		})
+	} else {
+		response.redirect('/')
+	}
 })
 
 app.get('/rsvp', function(request, response) {
 	// If the user is loggedin
 	if (request.session.loggedin) {
 		response.sendFile(path.join(__dirname, "static/views/rsvp.html"))
+	} else {
+		// Not logged in
+		response.redirect('/')
+	}
+})
+
+app.get('/details', function(request, response) {
+	// If the user is loggedin
+	if (request.session.loggedin) {
+        connection.query('select entree, modifications from user where id = ?',
+        [request.session.userId], function(error, results, fields) {
+            // If there is an issue with the query, output the error
+			if (error) throw error
+            if (results.length > 0) {
+                response.send(results[0])
+            } else {
+                return {entree: '', modifications: ''}
+            }
+            
+        })
+	} else {
+		// Not logged in
+		response.redirect('/')
+	}
+})
+
+app.post('/rsvp', function(request, response) {
+	// If the user is loggedin
+	if (request.session.loggedin) {
+        connection.query('update user set entree = ?, modifications = ? where id = ?',
+        [request.body.entree, request.body.modifications, request.session.userId], function(error, results, fields) {
+            // If there is an issue with the query, output the error
+			if (error) {
+                console.log("rsvp sql error: ", error)
+                throw error
+            }
+            response.redirect('/')	
+        })
 	} else {
 		// Not logged in
 		response.redirect('/')
@@ -94,5 +121,5 @@ app.post('/logout', function(request, response) {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`RSVP app listening on port ${port}`)
 })
