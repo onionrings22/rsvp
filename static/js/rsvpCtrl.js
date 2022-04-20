@@ -18,7 +18,6 @@ const submitRsvp = () => {
         modifications: $("#modifications").val()
     }
     $.post('/rsvp', body, (data) => {
-        console.log("data: ", data)
         if (data === 'OK') {
             toastr.success("RSVP Saved!")
         } else {
