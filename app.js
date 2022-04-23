@@ -55,7 +55,7 @@ app.post('/login', function(request, response) {
 				request.session.loggedin = true
 				request.session.userId = results[0].id
 				// Redirect to rsvp page
-				response.redirect('/rsvp')
+				response.redirect('/header')
 			} else {
 				response.redirect('/')
 			}			
@@ -69,6 +69,16 @@ app.get('/rsvp', function(request, response) {
 	// If the user is loggedin
 	if (request.session.loggedin) {
 		response.sendFile(path.join(__dirname, "static/views/rsvp.html"))
+	} else {
+		// Not logged in
+		response.redirect('/')
+	}
+})
+
+app.get('/header', function(request, response) {
+	// If the user is loggedin
+	if (request.session.loggedin) {
+		response.sendFile(path.join(__dirname, "static/views/header.html"))
 	} else {
 		// Not logged in
 		response.redirect('/')
